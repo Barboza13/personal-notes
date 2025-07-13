@@ -1,4 +1,6 @@
-use tauri_plugin_sql::{Migration, MigrationKind};
+use tauri_plugin_sql::Migration;
+
+mod migrations;
 
 #[tauri::command]
 fn greet(name: &str) -> String {
@@ -7,12 +9,7 @@ fn greet(name: &str) -> String {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    let migrations = vec![Migration {
-        version: 0,
-        description: "proof_migration",
-        sql: "CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT);",
-        kind: MigrationKind::Up,
-    }];
+    let migrations: Vec<Migration> = migrations::get_migrations();
 
     tauri::Builder::default()
         .plugin(

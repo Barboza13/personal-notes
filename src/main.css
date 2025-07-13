@@ -1,0 +1,11 @@
+@import 'tailwindcss';
+
+:root {
+  --default-background: #222;
+  --text-primary: #ebebeb;
+}
+
+* {
+  box-sizing: border-box;
+  background-color: var(--default-background);
+}

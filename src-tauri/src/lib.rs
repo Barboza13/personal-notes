@@ -1,6 +1,8 @@
 use tauri_plugin_sql::Migration;
 
 mod migrations;
+mod commands;
+mod models;
 
 #[tauri::command]
 fn greet(name: &str) -> String {

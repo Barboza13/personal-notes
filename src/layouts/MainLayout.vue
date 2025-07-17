@@ -10,7 +10,7 @@
   >
     <Aside class="row-span-3 border-r border-gray-500" />
     <Header class="border-b border-gray-500" />
-    <main class="p-6 overflow-y-auto">
+    <main class="overflow-y-auto">
       <slot />
     </main>
     <Footer class="border-t border-gray-500" />

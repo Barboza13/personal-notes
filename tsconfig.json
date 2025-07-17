@@ -25,7 +25,9 @@
       "@assets/*": ["assets/*"],
       "@views/*": ["views/*"],
       "@layouts/*": ["layouts/*"],
-      "@components/*": ["components/*"]
+      "@components/*": ["components/*"],
+      "@services/*": ["services/*"],
+      "@types/*": ["types/*"]
     },
     "types": ["node", "vite/client"]
   },

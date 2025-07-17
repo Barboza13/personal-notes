@@ -12,14 +12,15 @@
   "dependencies": {
     "@tauri-apps/api": "^2.6.0",
     "@tauri-apps/plugin-opener": "^2.4.0",
-    "@tauri-apps/plugin-sql": "~2.3.0",
     "vue": "^3.5.17"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.11",
     "@tauri-apps/cli": "^2.6.2",
+    "@tauri-apps/plugin-sql": "^2.3.0",
     "@types/node": "^24.0.13",
     "@vitejs/plugin-vue": "^5.2.4",
+    "oh-vue-icons": "1.0.0-rc3",
     "tailwindcss": "^4.1.11",
     "typescript": "~5.6.3",
     "vite": "^6.3.5",

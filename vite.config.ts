@@ -39,6 +39,8 @@ export default defineConfig(async () => ({
       '@components': fileURLToPath(
         new URL('./src/components', import.meta.url)
       ),
+      '@services': fileURLToPath(new URL('./src/services', import.meta.url)),
+      '@types': fileURLToPath(new URL('./src/types', import.meta.url)),
     },
   },
 }))

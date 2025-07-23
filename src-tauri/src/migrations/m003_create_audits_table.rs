@@ -7,7 +7,7 @@ pub fn migration() -> Migration {
         sql: r#"
                 CREATE TABLE audits (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    user_id TEXT NOT NULL,
+                    user_id INTEGER NOT NULL,
                     action TEXT NOT NULL,
                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                     FOREIGN KEY (user_id) REFERENCES users(id)

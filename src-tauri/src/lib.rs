@@ -1,3 +1,4 @@
+use tauri_plugin_log::{Target, TargetKind};
 use tauri_plugin_sql::Migration;
 
 mod migrations;
@@ -18,6 +19,12 @@ pub fn run() {
             tauri_plugin_sql::Builder::default()
                 .add_migrations("sqlite:personalnotes.db", migrations)
                 .build(),
+        )
+        .plugin(tauri_plugin_log::Builder::new().targets([
+                // Target::new(TargetKind::Stdout),
+                Target::new(TargetKind::Webview),
+            ])
+            .build()
         )
         .plugin(tauri_plugin_opener::init())
         .invoke_handler(tauri::generate_handler![greet])

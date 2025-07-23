@@ -11,9 +11,9 @@ pub fn migration() -> Migration {
                     title TEXT NOT NULL,
                     content TEXT NOT NULL,
                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                    deleted_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
+                    updated_at DATETIME DEFAULT NULL,
+                    deleted_at DATETIME DEFAULT NULL,
+                    FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
                 );
             "#,
         kind: MigrationKind::Up,

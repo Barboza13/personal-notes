@@ -2,7 +2,8 @@
 
 :root {
   --default-background: #222;
-  --text-primary: #ebebeb;
+  --text-color: #ebebeb;
+  --detail-color: #2471a3;
 }
 
 * {

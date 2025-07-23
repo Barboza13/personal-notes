@@ -1,19 +1,19 @@
-export type User = {
+export interface User {
   id?: number
   name: string
   email: string
   password: string
-  createdAt: string
+  createdAt?: string
   updatedAt?: string
   deletedAt?: string
 }
 
-export type Note = {
+export interface Note {
   id?: number
   userId: number
   title: string
   content: string
-  createdAt: string
+  createdAt?: string
   updatedAt?: string
   deletedAt?: string
 }

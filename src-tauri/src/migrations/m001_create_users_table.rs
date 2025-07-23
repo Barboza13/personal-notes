@@ -11,8 +11,8 @@ pub fn migration() -> Migration {
                     email TEXT UNIQUE NOT NULL,
                     password TEXT NOT NULL,
                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                    deleted_at DATETIME DEFAULT CURRENT_TIMESTAMP
+                    updated_at DATETIME DEFAULT NULL,
+                    deleted_at DATETIME DEFAULT NULL
                 );
             "#,
         kind: MigrationKind::Up,

@@ -29,6 +29,7 @@
       "@services/*": ["src/services/*"],
       "@interfaces/*": ["src/interfaces/*"],
       "@utils/*": ["src/utils/*"],
+      "@composables/*": ["src/composables/*"],
     },
     "types": ["node", "vite/client"],
     "allowSyntheticDefaultImports": true,

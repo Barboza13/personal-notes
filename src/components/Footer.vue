@@ -2,7 +2,7 @@
 
 <template>
   <footer class="bg-(--default-background)">
-    <h1 class="text-(--text-primary)">This is a footer!</h1>
+    <h1 class="text-(--text-color)">This is a footer!</h1>
   </footer>
 </template>
 

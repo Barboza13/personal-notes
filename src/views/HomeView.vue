@@ -1,15 +1,19 @@
 <script lang="ts" setup>
-  import MainLayout from '@layouts/MainLayout.vue'
-  import NoteService from '@services/NoteService.ts'
+import MainLayout from "@layouts/MainLayout.vue";
+import {useUser} from "@composables/useUser.ts";
+import {useRouter} from "vue-router";
 
-  const noteService = new NoteService()
+const router = useRouter()
+const { isLoggedIn } = useUser()
+
+if (!isLoggedIn) router.push({ name: 'login' })
 </script>
 
 <template>
   <MainLayout>
     <template #default>
       <form
-        class="flex flex-col justify-start items-center h-full w-full bg-(--default-background) text-(--text-primary) p-6"
+        class="flex flex-col justify-start items-center h-full w-full bg-(--default-background) text-(--text-color) p-6"
       >
         <div class="flex flex-col h-auto w-full mb-3">
           <label for="title">Titulo</label>

@@ -42,6 +42,7 @@ export default defineConfig(async () => ({
       '@services': fileURLToPath(new URL('./src/services', import.meta.url)),
       '@interfaces': fileURLToPath(new URL('./src/interfaces', import.meta.url)),
       '@utils': fileURLToPath(new URL('./src/utils', import.meta.url)),
+      '@composables': fileURLToPath(new URL('./src/composables', import.meta.url)),
     },
   },
 }))

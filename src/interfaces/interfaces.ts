@@ -8,6 +8,11 @@ export interface User {
   deletedAt?: string
 }
 
+export interface UserLogin {
+  nameOrEmail: string
+  password: string
+}
+
 export interface Note {
   id?: number
   userId: number

@@ -1,8 +1,8 @@
 import {QueryResult} from "@tauri-apps/plugin-sql";
 import DatabaseService from './DatabaseService';
-
-import type {User} from '@interfaces/interfaces.ts'
 import bcrypt from "bcryptjs";
+import type {User} from '@interfaces/interfaces.ts'
+import type {MessageData} from "@interfaces/global.ts";
 
 export default class UserService {
   private dbService: DatabaseService
@@ -29,7 +29,7 @@ export default class UserService {
     }
   }
 
-  async createUser(user: User): Promise<{ error: boolean, content: string } | undefined> {
+  async createUser(user: User): Promise<MessageData | undefined> {
     try {
       const hashedPassword = await bcrypt.hash(user.password, 12)
       const db = await this.dbService.getDatabase()

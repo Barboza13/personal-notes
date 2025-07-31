@@ -2,7 +2,7 @@
 
 <template>
   <header
-    class="flex justify-around items-center h-full w-full bg-(--default-background) text-(--text-primary) p-4"
+    class="flex justify-around items-center h-full w-full bg-(--default-background) text-(--text-color) p-4"
   >
     <section class="flex justify-center items-center h-full w-1/2">
       Total registros: 0

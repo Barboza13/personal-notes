@@ -30,6 +30,7 @@
       "@interfaces/*": ["src/interfaces/*"],
       "@utils/*": ["src/utils/*"],
       "@composables/*": ["src/composables/*"],
+      "@transitions/*": ["src/transitions/*"],
     },
     "types": ["node", "vite/client"],
     "allowSyntheticDefaultImports": true,

@@ -1,49 +1,51 @@
 <script setup lang="ts">
-  import type { Ref } from 'vue'
-  import { ref } from 'vue'
-  import UserService from '@services/UserService.ts'
-  import type { User } from '@interfaces/interfaces.ts'
-  import type { MessageData } from '@interfaces/global.ts'
+import type {Ref} from 'vue'
+import {ref} from 'vue'
+import UserService from '@services/UserService.ts'
+import type {User} from '@interfaces/users.ts'
+import type {MessageData} from '@interfaces/global.ts'
 
-  const userService = new UserService()
-  const userName: Ref<string> = ref('')
-  const email: Ref<string> = ref('')
-  const password: Ref<string> = ref('')
-  const passwordConfirmation: Ref<string> = ref('')
-  const messageData: Ref<MessageData> = ref({ error: false, content: '' })
-  const handleSubmit = async (): Promise<void> => {
-    if (password.value != passwordConfirmation.value) {
-      messageData.value = {
-        error: true,
-        content: '¡Las contraseñas no coinciden!',
-      }
-      setTimeout(
-        () => (messageData.value = { error: false, content: '' }),
-        3000
-      )
-      return
+const userService = new UserService()
+const userName: Ref<string> = ref('')
+const email: Ref<string> = ref('')
+const password: Ref<string> = ref('')
+const passwordConfirmation: Ref<string> = ref('')
+const messageData: Ref<MessageData> = ref({ error: false, content: '' })
+const handleSubmit = async (): Promise<void> => {
+  if (password.value != passwordConfirmation.value) {
+    messageData.value = {
+      error: true,
+      content: '¡Las contraseñas no coinciden!',
     }
+    setTimeout(() => (messageData.value = { error: false, content: '' }), 3000)
+    return
+  }
 
-    try {
-      const result = await userService.createUser({
-        name: userName.value,
-        email: email.value,
-        password: password.value,
-      } as User)
+  try {
+    const result = await userService.createUser({
+      name: userName.value,
+      email: email.value,
+      password: password.value,
+    } as User)
 
-      if (result) {
-        messageData.value = result
-      }
-    } catch (error) {
-      console.error(`Error creating user: ${String(error)}`)
+    if (result) {
+      messageData.value = result
     }
 
     userName.value = ''
     email.value = ''
     password.value = ''
     passwordConfirmation.value = ''
-    setTimeout(() => (messageData.value = { error: false, content: '' }), 3000)
+  } catch (error) {
+    messageData.value = {
+      error: true,
+      content: '¡Ocurrio un error inesperado, intente de nuevo!',
+    }
+    console.error(`Error creating user: ${String(error)}`)
   }
+
+  setTimeout(() => (messageData.value = { error: false, content: '' }), 3000)
+}
 </script>
 
 <template>

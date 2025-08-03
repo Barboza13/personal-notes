@@ -1,12 +1,48 @@
 <script lang="ts" setup>
-import MainLayout from "@layouts/MainLayout.vue";
-import {useUser} from "@composables/useUser.ts";
-import {useRouter} from "vue-router";
+import type {Ref} from 'vue'
+import {ref} from 'vue'
+import MainLayout from '@layouts/MainLayout.vue'
+import ShowMessageDialog from '@transitions/ShowMessageDialog.vue'
+import {useUser} from '@composables/useUser.ts'
+import {useRouter} from 'vue-router'
+import NoteService from '@services/NoteService.ts'
+import type {Note} from '@interfaces/notes.ts'
+import type {MessageData} from '@interfaces/global.ts'
 
 const router = useRouter()
-const { isLoggedIn } = useUser()
+const { isLoggedIn, getUserId } = useUser()
 
 if (!isLoggedIn) router.push({ name: 'login' })
+
+const noteService = new NoteService()
+const title: Ref<string> = ref('')
+const content: Ref<string> = ref('')
+const messageData: Ref<MessageData> = ref({ error: false, content: '' })
+
+const handleSubmit = async (): Promise<void> => {
+  try {
+    const response = await noteService.createNote({
+      userId: getUserId(),
+      title: title.value,
+      content: content.value
+    } as Note)
+
+    if (response) {
+      messageData.value = response
+    }
+
+    title.value = ''
+    content.value = ''
+  } catch (error) {
+    messageData.value = {
+      error: true,
+      content: '¡Ocurrio un error inesperado, intente de nuevo!',
+    }
+    console.error(`Error creating note: ${String(error)}`)
+  }
+
+  setTimeout(() => messageData.value = { error: false, content: '' }, 3000)
+}
 </script>
 
 <template>
@@ -14,21 +50,22 @@ if (!isLoggedIn) router.push({ name: 'login' })
     <template #default>
       <form
         class="flex flex-col justify-start items-center h-full w-full bg-(--default-background) text-(--text-color) p-6"
+        @submit.prevent="handleSubmit"
       >
         <div class="flex flex-col h-auto w-full mb-3">
           <label for="title">Titulo</label>
           <input
             class="bg-white text-black rounded-md outline-none h-10 px-2"
+            v-model="title"
             type="text"
             id="title"
-            name="title"
           />
         </div>
         <div class="flex flex-col h-full w-full mb-3">
           <label for="content">Contenido</label>
           <textarea
             class="h-full bg-white text-black rounded-md outline-none p-2"
-            name="content"
+            v-model="content"
             id="content"
           ></textarea>
         </div>
@@ -40,6 +77,15 @@ if (!isLoggedIn) router.push({ name: 'login' })
           </button>
         </div>
       </form>
+      <ShowMessageDialog>
+        <div v-show="messageData.content"
+             :class="[
+                 messageData.error ? 'text-red-500' : 'text-(--text-color)',
+                 'fixed bottom-10 right-5 flex justify-center items-center bg-(--detail-color) rounded-md p-4 z-100']"
+        >
+          {{ messageData.content }}
+        </div>
+      </ShowMessageDialog>
     </template>
   </MainLayout>
 </template>

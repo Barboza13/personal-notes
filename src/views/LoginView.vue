@@ -4,7 +4,7 @@ import type {Ref} from 'vue'
 import {ref} from 'vue'
 import {useRouter} from 'vue-router'
 import {useUser} from '@composables/useUser.ts'
-import type {User, UserLogin} from '@interfaces/interfaces.ts'
+import type {User, UserLogin} from '@interfaces/users.ts'
 import type {MessageData} from '@interfaces/global.ts'
 
 const router = useRouter()
@@ -23,24 +23,22 @@ const handleSubmit = async (): Promise<void> => {
 
     if (response && typeof response === 'object' && 'error' in response) {
       messageData.value = response
-      setTimeout(() => (messageData.value = { error: false, content: '' }),
-          3000
-        )
-        return
-      }
-
-      setUser(response as User)
-      await router.push({ name: 'home' })
-    } catch (error) {
-      messageData.value = {
-        error: true,
-        content: '¡Ocurrio un error inesperado, intente de nuevo!',
-      }
-      console.error(`Error login user: ${String(error)}`)
+      setTimeout(() => (messageData.value = { error: false, content: '' }), 3000)
+      return
     }
 
-    setTimeout(() => (messageData.value = { error: false, content: '' }), 3000)
+    setUser(response as User)
+    await router.push({ name: 'home' })
+  } catch (error) {
+    messageData.value = {
+      error: true,
+      content: '¡Ocurrio un error inesperado, intente de nuevo!',
+    }
+    console.error(`Error login user: ${String(error)}`)
   }
+
+  setTimeout(() => (messageData.value = { error: false, content: '' }), 3000)
+}
 </script>
 
 <template>
@@ -87,7 +85,7 @@ const handleSubmit = async (): Promise<void> => {
     <div>
       <RouterLink
         class="text-(--text-color) hover:text-gray-400 transition-colors duration-75 ease-in"
-        :to="{ name: 'register' }"
+        :to="{ name: 'register-user' }"
       >
         Crear cuenta
       </RouterLink>

@@ -1,8 +1,8 @@
-import {QueryResult} from "@tauri-apps/plugin-sql";
-import DatabaseService from './DatabaseService';
-import bcrypt from "bcryptjs";
-import type {User} from '@interfaces/interfaces.ts'
-import type {MessageData} from "@interfaces/global.ts";
+import {QueryResult} from '@tauri-apps/plugin-sql'
+import DatabaseService from './DatabaseService'
+import bcrypt from 'bcryptjs'
+import type {User} from '@interfaces/users.ts'
+import type {MessageData} from '@interfaces/global.ts'
 
 export default class UserService {
   private dbService: DatabaseService
@@ -49,22 +49,40 @@ export default class UserService {
     }
   }
 
-  async updateUser(id: number, user: User): Promise<QueryResult | undefined> {
+  async updateUser(id: number, user: User): Promise<MessageData | undefined> {
     try {
       const db = await this.dbService.getDatabase()
-      return await db.execute(
+      const result: QueryResult = await db.execute(
         'UPDATE users SET name = $1, email = $2, updated_at = $3 WHERE id = $4',
         [user.name, user.email, user.updatedAt, id])
+
+      if (!result) {
+        return {
+          error: true,
+          content: '¡Ocurrio un error al actualizar el usuario, por favor intente de nuevo!'
+        }
+      }
+
+      return { error: false, content: '¡Registro actualizado exitosamente!' }
     } catch (error) {
       await Promise.reject(error)
     }
   }
 
-  async deleteUser(id: number, deletedAt: string): Promise<QueryResult | undefined> {
+  async deleteUser(id: number, deletedAt: string): Promise<MessageData | undefined> {
     try {
       const db = await this.dbService.getDatabase()
-      return await db.execute('UPDATE users SET deleted_at = $1 WHERE id = $2',
+      const result: QueryResult = await db.execute('UPDATE users SET deleted_at = $1 WHERE id = $2',
         [deletedAt, id])
+
+      if (!result) {
+        return {
+          error: true,
+          content: '¡Ocurrio un error al eliminar el usuario, por favor intente de nuevo!'
+        }
+      }
+
+      return { error: false, content: '¡Registro eliminado exitosamente!' }
     } catch (error) {
       await Promise.reject(error)
     }

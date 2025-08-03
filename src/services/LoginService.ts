@@ -1,7 +1,7 @@
 import DatabaseService from "@services/DatabaseService.ts"
 import Database from "@tauri-apps/plugin-sql"
 import {compare} from "bcryptjs"
-import type {User, UserLogin} from "@interfaces/interfaces.ts"
+import type {User, UserLogin} from "@interfaces/users.ts"
 import type {MessageData} from "@interfaces/global.ts"
 
 export default class LoginService {

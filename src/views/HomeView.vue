@@ -6,11 +6,13 @@ import ShowMessageDialog from '@transitions/ShowMessageDialog.vue'
 import {useUser} from '@composables/useUser.ts'
 import {useRouter} from 'vue-router'
 import NoteService from '@services/NoteService.ts'
-import type {Note} from '@interfaces/notes.ts'
 import type {MessageData} from '@interfaces/global.ts'
+import {useNote} from '@composables/useNote.ts'
+import type {Note} from '@interfaces/notes.ts'
 
 const router = useRouter()
 const { isLoggedIn, getUserId } = useUser()
+const { addNote } = useNote()
 
 if (!isLoggedIn) router.push({ name: 'login' })
 
@@ -20,12 +22,14 @@ const content: Ref<string> = ref('')
 const messageData: Ref<MessageData> = ref({ error: false, content: '' })
 
 const handleSubmit = async (): Promise<void> => {
+  const note: Note = {
+    userId: getUserId() ?? 0,
+    title: title.value,
+    content: content.value
+  }
+
   try {
-    const response = await noteService.createNote({
-      userId: getUserId(),
-      title: title.value,
-      content: content.value
-    } as Note)
+    const response = await noteService.createNote(note)
 
     if (response) {
       messageData.value = response
@@ -33,6 +37,7 @@ const handleSubmit = async (): Promise<void> => {
 
     title.value = ''
     content.value = ''
+    addNote(note)
   } catch (error) {
     messageData.value = {
       error: true,

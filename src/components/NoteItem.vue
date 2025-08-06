@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {useRouter} from "vue-router";
+import {useRouter} from 'vue-router'
 
 const router = useRouter()
 const props = defineProps({
@@ -22,7 +22,7 @@ const goToPath = (id: number): void => {
 </script>
 
 <template>
-  <article class="flex justify-center items-center h-8 w-full bg-gray-600 hover:bg-gray-700 cursor-pointer rounded-md text-white transition-colors duration-75 ease-in" @click="goToPath(noteId)">
+  <article class="flex justify-center items-center min-h-8 w-full bg-gray-600 hover:bg-gray-700 cursor-pointer rounded-md text-white transition-colors duration-75 ease-in" @click="goToPath(noteId)">
     {{ props.noteTitle }}
   </article>
 </template>

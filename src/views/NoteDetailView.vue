@@ -3,7 +3,7 @@ import MainLayout from '@layouts/MainLayout.vue'
 import NoteService from '@services/NoteService.ts'
 import {Note} from '@interfaces/notes.ts'
 import {onMounted, ref, Ref} from 'vue'
-import {useRoute, useRouter} from 'vue-router'
+import {onBeforeRouteUpdate, useRoute, useRouter} from 'vue-router'
 import {MessageData} from '@interfaces/global.ts'
 import {getCurrentTimestamp} from '@utils/utils.ts'
 import ShowMessageDialog from '@transitions/ShowMessageDialog.vue'
@@ -16,9 +16,20 @@ const noteData: Ref<Note | null> = ref(null)
 const isOpenDeleteModal: Ref<boolean> = ref(false)
 const messageData: Ref<MessageData> = ref({ error: false, content: '' })
 
-const getNoteData = async (): Promise<void> => {
+onBeforeRouteUpdate(async (to, from) => {
+  if (to.params.id !== from.params.id) {
+    const newId = parseInt(String(to.params.id))
+    if (!isNaN(newId)) {
+      await getNoteData(newId)
+    }
+  }
+})
+
+const getNoteData = async (newId?: number): Promise<void> => {
+  const id = newId ? newId : noteId
+
   try {
-    noteData.value = await noteService.getNoteById(noteId) ?? null
+    noteData.value = await noteService.getNoteById(id) ?? null
   } catch (error) {
     messageData.value = {
       error: true,

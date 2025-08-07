@@ -26,8 +26,8 @@ const routes = [
   },
   {
     name: 'note-detail',
-    path: '/note-detail:id',
-    component: NoteDetailView
+    path: '/note-detail/:id',
+    component: NoteDetailView,
   }
 ]
 

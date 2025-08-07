@@ -13,16 +13,16 @@ const props = defineProps({
   }
 })
 
-const goToPath = (id: number): void => {
+const goToPath = (): void => {
   router.push({
     name: 'note-detail',
-    params: { id }
+    params: { id: props.noteId }
   })
 }
 </script>
 
 <template>
-  <article class="flex justify-center items-center min-h-8 w-full bg-gray-600 hover:bg-gray-700 cursor-pointer rounded-md text-white transition-colors duration-75 ease-in" @click="goToPath(noteId)">
+  <article class="flex justify-center items-center min-h-8 w-full bg-gray-600 hover:bg-gray-700 cursor-pointer rounded-md text-white transition-colors duration-75 ease-in" @click="goToPath">
     {{ props.noteTitle }}
   </article>
 </template>

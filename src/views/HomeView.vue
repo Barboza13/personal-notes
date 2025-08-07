@@ -1,15 +1,16 @@
 <script lang="ts" setup>
 import type {Ref} from 'vue'
-import {ref} from 'vue'
+import {onMounted, ref} from 'vue'
 import MainLayout from '@layouts/MainLayout.vue'
 import ShowMessageDialog from '@transitions/ShowMessageDialog.vue'
 import {useUser} from '@composables/useUser.ts'
-import {useRouter} from 'vue-router'
+import {useRoute, useRouter} from 'vue-router'
 import NoteService from '@services/NoteService.ts'
 import type {MessageData} from '@interfaces/global.ts'
 import {useNote} from '@composables/useNote.ts'
 import type {Note} from '@interfaces/notes.ts'
 
+const { message: messageJson } = useRoute().query
 const router = useRouter()
 const { isLoggedIn, getUserId } = useUser()
 const { addNote } = useNote()
@@ -21,6 +22,12 @@ const title: Ref<string> = ref('')
 const content: Ref<string> = ref('')
 const messageData: Ref<MessageData> = ref({ error: false, content: '' })
 
+const checkAndShowMessage = (): void => {
+  if (messageJson && typeof messageJson === "string") {
+    messageData.value = JSON.parse(messageJson)
+    setTimeout(() => messageData.value = { error: false, content: '' }, 3000)
+  }
+}
 const handleSubmit = async (): Promise<void> => {
   const note: Note = {
     userId: getUserId() ?? 0,
@@ -48,6 +55,8 @@ const handleSubmit = async (): Promise<void> => {
 
   setTimeout(() => messageData.value = { error: false, content: '' }, 3000)
 }
+
+onMounted(() => checkAndShowMessage())
 </script>
 
 <template>
@@ -83,10 +92,11 @@ const handleSubmit = async (): Promise<void> => {
         </div>
       </form>
       <ShowMessageDialog>
-        <div v-show="messageData.content"
+        <div v-if="messageData.content"
              :class="[
                  messageData.error ? 'text-red-500' : 'text-(--text-color)',
-                 'fixed bottom-10 right-5 flex justify-center items-center bg-(--detail-color) rounded-md p-4 z-100']"
+                 'fixed bottom-10 right-5 flex justify-center items-center bg-(--detail-color) rounded-md p-4 z-100'
+             ]"
         >
           {{ messageData.content }}
         </div>

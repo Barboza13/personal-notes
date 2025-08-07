@@ -1,8 +1,8 @@
 /**
- * @description Get the current timestamp on string format.
+ * @description Get current timestamp.
  * @returns {string} Current timestamp.
  */
-export function getCurrentFormattedTimestamp(): string {
+export function getCurrentTimestamp(): string {
   const now = new Date();
 
   const year = now.getFullYear();

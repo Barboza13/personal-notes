@@ -13,7 +13,9 @@ export default class NoteService {
   async getAllNotes(userId: number): Promise<Note[] | undefined> {
     try {
       const db = await this.dbService.getDatabase()
-      return await db.select('SELECT * FROM notes WHERE user_id = $1', [userId])
+      return await db.select(
+        'SELECT * FROM notes WHERE user_id = $1 AND deleted_at IS NULL',
+        [userId])
     } catch (error) {
       await Promise.reject(error)
     }
@@ -48,7 +50,7 @@ export default class NoteService {
     }
   }
 
-  async updateUser(id: number, note: Note): Promise<MessageData | undefined> {
+  async updateNote(id: number, note: Note): Promise<MessageData | undefined> {
     try {
       const db = await this.dbService.getDatabase()
       const result: QueryResult = await db.execute(
@@ -68,7 +70,7 @@ export default class NoteService {
     }
   }
 
-  async deleteUser(id: number, deletedAt: string): Promise<MessageData | undefined> {
+  async deleteNote(id: number, deletedAt: string): Promise<MessageData | undefined> {
     try {
       const db = await this.dbService.getDatabase()
       const result: QueryResult = await db.execute('UPDATE notes SET deleted_at = $1 WHERE id = $2',

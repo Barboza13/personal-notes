@@ -78,9 +78,11 @@ onMounted(async () => await getNoteData())
 <template>
   <MainLayout>
     <template #default>
-      <section class="flex justify-around items-center h-1/12 w-full bg-(--default-background) text-(--text-color) border-b border-b-gray-500 p-2">
-        <h1 class="text-center w-1/2">Opciones:</h1>
-        <div class="flex justify-center items-center h-full w-1/2 gap-2">
+      <section class="flex justify-between items-center h-1/12 w-full bg-(--default-background) text-(--text-color) p-2">
+        <div class="flex h-full w-1/2">
+          <h1 class="text-xl text-(--text-color)">{{ noteData?.title }}</h1>
+        </div>
+        <div class="flex justify-end items-center h-full w-1/2 gap-2">
           <button class="bg-blue-500 hover:bg-blue-600 rounded-md cursor-pointer transition-colors duration-75 ease-in py-1 px-2" @click="editNote">
             <v-icon name="md-modeedit" title="Editar" />
           </button>
@@ -89,9 +91,18 @@ onMounted(async () => await getNoteData())
           </button>
         </div>
       </section>
-      <section class="flex flex-col justify-start items-start h-11/12 w-full bg-(--default-background) p-2">
-        <h1 class="text-xl text-(--text-color)">{{ noteData?.title }}</h1><br>
-        <p class="text-(--text-color)">{{ noteData?.content }}</p>
+      <section class="flex flex-col justify-start items-start h-11/12 w-full bg-(--default-background) text-(--text-color) p-2">
+        <div class="flex text-sm gap-1">
+          <strong>Creado el:</strong>
+          <p class="text-gray-400">{{ noteData?.created_at }}</p>
+        </div>
+        <div class="flex text-sm gap-1">
+          <strong>Actualizado el: </strong>
+          <p class="text-gray-400">{{ noteData?.updated_at ?? 'Nunca' }}</p>
+        </div>
+        <br>
+        <h1>Contenido:</h1>
+        <p class="text-(--text-color) overflow-y-auto">{{ noteData?.content }}</p>
       </section>
       <ShowMessageDialog>
         <div v-if="messageData.content"

@@ -1,9 +1,9 @@
 export interface Note {
   id?: number
-  userId: number
+  user_id: number
   title: string
   content: string
-  createdAt?: string
-  updatedAt?: string
-  deletedAt?: string
+  created_at?: string
+  updated_at?: string
+  deleted_at?: string
 }

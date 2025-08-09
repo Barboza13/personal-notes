@@ -21,7 +21,7 @@ const routes = [
   },
   {
     name: 'home',
-    path: '/home',
+    path: '/home/:id?',
     component: HomeView
   },
   {

@@ -4,30 +4,61 @@ import {onMounted, ref} from 'vue'
 import MainLayout from '@layouts/MainLayout.vue'
 import ShowMessageDialog from '@transitions/ShowMessageDialog.vue'
 import {useUser} from '@composables/useUser.ts'
-import {useRoute, useRouter} from 'vue-router'
+import {onBeforeRouteUpdate, useRoute, useRouter} from 'vue-router'
 import NoteService from '@services/NoteService.ts'
 import type {MessageData} from '@interfaces/global.ts'
 import {useNote} from '@composables/useNote.ts'
 import type {Note} from '@interfaces/notes.ts'
+import {getCurrentTimestamp} from '@utils/utils.ts'
 
-const { message: messageJson } = useRoute().query
+const {
+  message: deleteMessageJson,
+  id: noteIdToEdit,
+  title: noteTitleToEdit,
+  content: noteContentToEdit
+} = useRoute().query
 const router = useRouter()
 const { isLoggedIn, getUserId } = useUser()
-const { addNote } = useNote()
+const { addNote, updateNote } = useNote()
 
 if (!isLoggedIn) router.push({ name: 'login' })
 
 const noteService = new NoteService()
+const isEdit: Ref<boolean> = ref(false)
+const noteId: Ref<number | null> = ref(null)
 const title: Ref<string> = ref('')
 const content: Ref<string> = ref('')
 const messageData: Ref<MessageData> = ref({ error: false, content: '' })
 
+onBeforeRouteUpdate((to, from) => {
+  if (to.params !== from.params) {
+    noteId.value = null
+    isEdit.value = false
+    title.value = ''
+    content.value = ''
+  }
+})
+
 const checkAndShowMessage = (): void => {
-  if (messageJson && typeof messageJson === "string") {
-    messageData.value = JSON.parse(messageJson)
-    setTimeout(() => messageData.value = { error: false, content: '' }, 3000)
+  if (deleteMessageJson && typeof deleteMessageJson === "string") {
+    showMessage(JSON.parse(deleteMessageJson))
   }
 }
+
+const checkIfEditNote = (): void => {
+  if (noteIdToEdit != null && noteTitleToEdit != null && noteContentToEdit != null) {
+    isEdit.value = true
+    noteId.value = parseInt(String(noteIdToEdit))
+    title.value = String(noteTitleToEdit)
+    content.value = String(noteContentToEdit)
+  }
+}
+
+const showMessage = (message: MessageData): void => {
+  messageData.value = message
+  setTimeout(() => messageData.value = { error: false, content: '' }, 3000)
+}
+
 const handleSubmit = async (): Promise<void> => {
   const note: Note = {
     userId: getUserId() ?? 0,
@@ -35,28 +66,45 @@ const handleSubmit = async (): Promise<void> => {
     content: content.value
   }
 
-  try {
-    const response = await noteService.createNote(note)
+  if (isEdit.value) {
+    note.id = noteId.value ?? 0
+    note.updatedAt = getCurrentTimestamp()
 
-    if (response) {
-      messageData.value = response
+    try {
+      const message = <MessageData> await noteService.updateNote(noteId.value ?? 0, note)
+      showMessage(message)
+
+      if (!updateNote(note)) {
+        showMessage({ error: true, content: '¡Error al actualizar la tarea en la vista!' })
+      }
+
+      title.value = ''
+      content.value = ''
+    } catch (error) {
+      showMessage({ error: true, content: '¡Ocurrio un error inesperado, intente de nuevo!' })
+      console.error(`Error editing note: ${String(error)}`)
     }
 
-    title.value = ''
-    content.value = ''
-    addNote(note)
-  } catch (error) {
-    messageData.value = {
-      error: true,
-      content: '¡Ocurrio un error inesperado, intente de nuevo!',
-    }
-    console.error(`Error creating note: ${String(error)}`)
+    return
   }
 
-  setTimeout(() => messageData.value = { error: false, content: '' }, 3000)
+  try {
+    const message = <MessageData> await noteService.createNote(note)
+    showMessage(message)
+
+    addNote(note)
+    title.value = ''
+    content.value = ''
+  } catch (error) {
+    showMessage({ error: true, content: '¡Ocurrio un error inesperado, intente de nuevo!' })
+    console.error(`Error creating note: ${String(error)}`)
+  }
 }
 
-onMounted(() => checkAndShowMessage())
+onMounted(() => {
+  checkAndShowMessage()
+  checkIfEditNote()
+})
 </script>
 
 <template>
@@ -87,7 +135,7 @@ onMounted(() => checkAndShowMessage())
           <button
             class="w-1/3 bg-green-500 hover:bg-green-700 rounded-md cursor-pointer transition-colors duration-75 ease-in p-2"
           >
-            Guardar
+            {{ isEdit ? 'Actualizar' : 'Guardar'}}
           </button>
         </div>
       </form>

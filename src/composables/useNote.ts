@@ -29,7 +29,18 @@ export function useNote() {
     notes.value.unshift(note)
   }
 
-  watch(notes, () => notes.value)
+  const updateNote = (editedNote: Note): boolean => {
+    let noteIndex = notes.value.findIndex(note => note.id === editedNote.id)
 
-  return {notes, addNote}
+    if (noteIndex !== -1) {
+      notes.value.splice(noteIndex, 1, { ...editedNote })
+      return true
+    }
+
+    return false
+  }
+
+  watch(notes, () => notes.value = notes.value)
+
+  return { notes, addNote, updateNote }
 }

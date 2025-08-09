@@ -9,7 +9,7 @@ import {getCurrentTimestamp} from '@utils/utils.ts'
 import ShowMessageDialog from '@transitions/ShowMessageDialog.vue'
 
 const { id } = useRoute().params
-const noteId: number = parseInt(String(id) ?? '0')
+const noteId: Ref<number> = ref(parseInt(String(id) ?? '0'))
 const router = useRouter()
 const noteService = new NoteService()
 const noteData: Ref<Note | null> = ref(null)
@@ -20,16 +20,15 @@ onBeforeRouteUpdate(async (to, from) => {
   if (to.params.id !== from.params.id) {
     const newId = parseInt(String(to.params.id))
     if (!isNaN(newId)) {
-      await getNoteData(newId)
+      noteId.value = newId
+      await getNoteData()
     }
   }
 })
 
-const getNoteData = async (newId?: number): Promise<void> => {
-  const id = newId ? newId : noteId
-
+const getNoteData = async (): Promise<void> => {
   try {
-    noteData.value = await noteService.getNoteById(id) ?? null
+    noteData.value = await noteService.getNoteById(noteId.value) ?? null
   } catch (error) {
     messageData.value = {
       error: true,
@@ -39,13 +38,30 @@ const getNoteData = async (newId?: number): Promise<void> => {
   }
 }
 
-const editNote = async (): Promise<void> => {}
+const editNote = async (): Promise<void> => {
+  try {
+    await router.push({
+      name: 'home',
+      query: {
+        id: noteId.value,
+        title: noteData.value?.title,
+        content: noteData.value?.content
+      }
+    })
+  } catch (error) {
+    messageData.value = {
+      error: true,
+      content: '¡Ocurrio un error inesperado, intente de nuevo!',
+    }
+    console.error(`Error to change view: ${String(error)}`)
+  }
+}
 
 const deleteNote = async (): Promise<void> => {
   const deletedAt = getCurrentTimestamp()
 
   try {
-    const message = <MessageData> await noteService.deleteNote(noteId, deletedAt)
+    const message = <MessageData> await noteService.deleteNote(noteId.value, deletedAt)
     await router.push({ name: 'home', query: { message: JSON.stringify(message) } })
   } catch(error) {
     messageData.value = {

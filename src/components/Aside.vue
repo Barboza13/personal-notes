@@ -36,13 +36,13 @@ const logout = async (): Promise<void> => {
 
 <template>
   <aside class="flex flex-col justify-start items-center h-full bg-(--default-background) py-2 px-4">
-    <section class="flex justify-around items-center h-[5.3rem] w-full border-b border-gray-500">
+    <section class="flex justify-around items-center h-[4.6rem] w-full border-b border-gray-500">
       <h1 class="text-(--text-color)">{{ userName }}</h1>
       <button class="bg-red-500 hover:bg-red-600 text-(--text-color) cursor-pointer rounded-md transition-colors duration-75 ease-in p-2" @click="logout">
         <v-icon name="co-account-logout" title="Cerrar sesion" />
       </button>
     </section>
-    <section class="flex flex-col justify-start items-start h-(calc(100% - 5.3rem)) w-full overflow-y-auto gap-2 py-2 pr-4">
+    <section class="flex flex-col justify-start items-start min-h-(calc(100% - 4.6rem)) w-full overflow-y-auto gap-2 py-2 pr-4">
       <NoteItem v-if="notes.length > 0"
                 v-for="note in notes"
                 :key="note.id"

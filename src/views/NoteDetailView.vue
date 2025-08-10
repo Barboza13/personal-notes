@@ -7,6 +7,7 @@ import {onBeforeRouteUpdate, useRoute, useRouter} from 'vue-router'
 import {MessageData} from '@interfaces/global.ts'
 import {getCurrentTimestamp} from '@utils/utils.ts'
 import ShowMessageDialog from '@transitions/ShowMessageDialog.vue'
+import ShowConfirmModal from '@transitions/ShowConfirmModal.vue'
 
 const { id } = useRoute().params
 const noteId: Ref<number> = ref(parseInt(String(id) ?? '0'))
@@ -118,14 +119,16 @@ onMounted(async () => await getNoteData())
   </MainLayout>
 
   <div v-show="isOpenDeleteModal" class="fixed inset-0 bg-black opacity-30 z-[999]"></div>
-  <div v-show="isOpenDeleteModal" @close="isOpenDeleteModal = false"
-       class="fixed top-1/2 left-1/2 -translate-1/2 flex flex-col justify-center items-center h-[125px] w-[400px] bg-(--detail-color) text-(--text-color) rounded-md shadow-black shadow-lg/45 gap-4 z-[1000]">
-    <p class="text-lg">¿Seguro que desea eliminar el registro?</p>
-    <section class="flex justify-around items-center w-full">
-      <button class="bg-gray-500 hover:bg-gray-600 cursor-pointer rounded-md transition-colors duration-75 ease-in py-2 px-4" @click="isOpenDeleteModal = false">Cancelar</button>
-      <button class="bg-red-500 hover:bg-red-600 cursor-pointer rounded-md transition-colors duration-75 ease-in py-2 px-4" @click="deleteNote">Eliminar</button>
-    </section>
-  </div>
+  <ShowConfirmModal>
+    <div v-show="isOpenDeleteModal" @close="isOpenDeleteModal = false"
+         class="fixed top-1/2 left-1/2 -translate-1/2 flex flex-col justify-center items-center h-[125px] w-[400px] bg-(--detail-color) text-(--text-color) rounded-md shadow-black shadow-lg/45 gap-4 z-[1000]">
+      <p class="text-lg">¿Seguro que desea eliminar el registro?</p>
+      <section class="flex justify-around items-center w-full">
+        <button class="bg-gray-500 hover:bg-gray-600 cursor-pointer rounded-md transition-colors duration-75 ease-in py-2 px-4" @click="isOpenDeleteModal = false">Cancelar</button>
+        <button class="bg-red-500 hover:bg-red-600 cursor-pointer rounded-md transition-colors duration-75 ease-in py-2 px-4" @click="deleteNote">Eliminar</button>
+      </section>
+    </div>
+  </ShowConfirmModal>
 </template>
 
 <style scoped></style>

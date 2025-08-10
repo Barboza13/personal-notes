@@ -61,14 +61,14 @@ const showMessage = (message: MessageData): void => {
 
 const handleSubmit = async (): Promise<void> => {
   const note: Note = {
-    userId: getUserId() ?? 0,
+    user_id: getUserId() ?? 0,
     title: title.value,
     content: content.value
   }
 
   if (isEdit.value) {
     note.id = noteId.value ?? 0
-    note.updatedAt = getCurrentTimestamp()
+    note.updated_at = getCurrentTimestamp()
 
     try {
       const message = <MessageData> await noteService.updateNote(noteId.value ?? 0, note)

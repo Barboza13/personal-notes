@@ -1,7 +1,11 @@
 <script lang="ts" setup>
 import {useRouter} from 'vue-router'
+import {useNote} from '@composables/useNote.ts'
+import {computed} from 'vue'
 
 const router = useRouter()
+const { notes } = useNote()
+const notesCount = computed(() => notes.value.length)
 
 const gotoForm = (): void => {
   router.push({ name: 'home' })
@@ -10,10 +14,10 @@ const gotoForm = (): void => {
 
 <template>
   <header
-    class="flex justify-around items-center h-full w-full bg-(--default-background) text-(--text-color) p-4"
+    class="flex justify-around items-center h-full w-full bg-(--default-background) text-(--text-color) py-2"
   >
     <section class="flex justify-center items-center h-full w-1/2">
-      Total registros: 0
+      Total registros: {{ notesCount ?? 0 }}
     </section>
     <section class="flex justify-center items-center h-full w-1/2">
       <button

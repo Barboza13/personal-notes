@@ -3,6 +3,7 @@ import LoginView from "@views/LoginView.vue";
 import HomeView from "@views/HomeView.vue";
 import RegisterUserView from "@views/RegisterUserView.vue";
 import NoteDetailView from "@views/NoteDetailView.vue";
+import SettingsView from "@views/SettingsView.vue";
 
 const routes = [
   {
@@ -28,6 +29,11 @@ const routes = [
     name: 'note-detail',
     path: '/note-detail/:id',
     component: NoteDetailView,
+  },
+  {
+    name: 'settings',
+    path: '/settings',
+    component: SettingsView
   }
 ]
 

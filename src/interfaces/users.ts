@@ -3,9 +3,9 @@ export interface User {
   name: string
   email: string
   password: string
-  createdAt?: string
-  updatedAt?: string
-  deletedAt?: string
+  created_at?: string
+  updated_at?: string
+  deleted_at?: string
 }
 
 export interface UserLogin {

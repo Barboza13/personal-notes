@@ -36,7 +36,7 @@ export default class NoteService {
       const db = await this.dbService.getDatabase()
       const result: QueryResult = await db.execute(
         'INSERT INTO notes (user_id, title, content) VALUES ($1, $2, $3)',
-        [note.userId, note.title, note.content]
+        [note.user_id, note.title, note.content]
       )
 
       if (!result) {
@@ -57,7 +57,7 @@ export default class NoteService {
       const db = await this.dbService.getDatabase()
       const result: QueryResult = await db.execute(
         'UPDATE notes SET user_id = $1, title = $2, content = $3, updated_at = $4 WHERE id = $5',
-        [note.userId, note.title, note.content, note.updatedAt, id])
+        [note.user_id, note.title, note.content, note.updated_at, id])
 
       if (!result) {
         return {

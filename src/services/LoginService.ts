@@ -5,7 +5,7 @@ import type {User, UserLogin} from '@interfaces/users.ts'
 import type {MessageData} from '@interfaces/global.ts'
 import {useUser} from '@composables/useUser.ts'
 
-const { clearUser } = useUser()
+const {clearUser} = useUser()
 
 export default class LoginService {
   private dbService: DatabaseService
@@ -25,10 +25,10 @@ export default class LoginService {
    * @throws {Error} - Rejects the promise if database connection or query fails.
    */
   async login(userLogin: UserLogin): Promise<User | MessageData | undefined> {
-    let query: string = 'SELECT * FROM users WHERE name = $1'
+    let query: string = 'SELECT * FROM users WHERE name = $1 AND deleted_at IS NULL'
 
     if (this.isEmail(userLogin.nameOrEmail)) {
-      query = 'SELECT * FROM users WHERE email = $1'
+      query = 'SELECT * FROM users WHERE email = $1 AND deleted_at IS NULL'
     }
 
     try {

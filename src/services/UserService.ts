@@ -43,7 +43,7 @@ export default class UserService {
         }
       }
 
-      return { error: false, content: '¡Registro guardado exitosamente!' }
+      return {error: false, content: '¡Registro guardado exitosamente!'}
     } catch (error) {
       await Promise.reject(error)
     }
@@ -63,7 +63,7 @@ export default class UserService {
         }
       }
 
-      return { error: false, content: '¡Registro actualizado exitosamente!' }
+      return {error: false, content: '¡Registro actualizado exitosamente!'}
     } catch (error) {
       await Promise.reject(error)
     }
@@ -82,7 +82,7 @@ export default class UserService {
         }
       }
 
-      return { error: false, content: '¡Registro eliminado exitosamente!' }
+      return {error: false, content: '¡La cuenta se elimino exitosamente!'}
     } catch (error) {
       await Promise.reject(error)
     }

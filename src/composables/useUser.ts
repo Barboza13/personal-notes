@@ -1,11 +1,13 @@
-import type {Ref} from 'vue'
-import {computed, ref} from 'vue'
-import type {User} from '@interfaces/users.ts'
+import { computed, ref } from 'vue'
+
+import type { Ref } from 'vue'
+import type { User } from '@interfaces/users'
 
 const user: Ref<User | null> = ref(null)
 
 export function useUser() {
   const isLoggedIn = computed(() => user.value !== null)
+
   const clearUser = (): void => {
     user.value = null
   }
@@ -15,9 +17,13 @@ export function useUser() {
   }
 
   const userName = computed(() => user.value?.name || '')
+
   const userEmail = computed(() => user.value?.email || '')
-  const userCreatedAt = user.value?.created_at || ''
+
+  const userCreatedAt = computed(() => user.value?.created_at || '')
+
   const userUpdatedAt = computed(() => user.value?.updated_at || 'Nunca')
+
   const getUserId = (): number | undefined => {
     return user.value?.id
   }

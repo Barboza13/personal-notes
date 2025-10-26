@@ -1,0 +1,14 @@
+{
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": false,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "bracketSpacing": true,
+  "bracketSameLine": false,
+  "objectWrap": "preserve",
+  "arrowParens": "always",
+  "vueIndentScriptAndStyle": true,
+  "singleAttributePerLine": true,
+  "printWidth": 125
+}

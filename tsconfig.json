@@ -30,19 +30,13 @@
       "@interfaces/*": ["src/interfaces/*"],
       "@utils/*": ["src/utils/*"],
       "@composables/*": ["src/composables/*"],
-      "@transitions/*": ["src/transitions/*"],
+      "@transitions/*": ["src/transitions/*"]
     },
     "types": ["node", "vite/client"],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-  ],
-  "exclude": ["node_modules", "dist", "src-tauri"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "exclude": ["node_modules", "dist", "src-tauri"]
 }

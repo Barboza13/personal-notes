@@ -1,7 +1,7 @@
-import {defineConfig} from 'vite'
+import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import tailwindcss from '@tailwindcss/vite'
-import {fileURLToPath, URL} from 'node:url'
+import { fileURLToPath, URL } from 'node:url'
 
 const host = process.env.TAURI_DEV_HOST
 
@@ -18,13 +18,7 @@ export default defineConfig(async () => ({
     port: 1420,
     strictPort: true,
     host: host || false,
-    hmr: host
-      ? {
-          protocol: 'ws',
-          host,
-          port: 1421,
-        }
-      : undefined,
+    hmr: host ? { protocol: 'ws', host, port: 1421 } : undefined,
     watch: {
       // 3. tell vite to ignore watching `src-tauri`
       ignored: ['**/src-tauri/**'],
@@ -36,9 +30,7 @@ export default defineConfig(async () => ({
       '@views': fileURLToPath(new URL('./src/views', import.meta.url)),
       '@assets': fileURLToPath(new URL('./src/assets', import.meta.url)),
       '@layouts': fileURLToPath(new URL('./src/layouts', import.meta.url)),
-      '@components': fileURLToPath(
-        new URL('./src/components', import.meta.url)
-      ),
+      '@components': fileURLToPath(new URL('./src/components', import.meta.url)),
       '@services': fileURLToPath(new URL('./src/services', import.meta.url)),
       '@interfaces': fileURLToPath(new URL('./src/interfaces', import.meta.url)),
       '@utils': fileURLToPath(new URL('./src/utils', import.meta.url)),

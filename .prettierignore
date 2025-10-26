@@ -1,0 +1,12 @@
+# Ignore artifacts:
+build
+coverage
+
+# directories
+src-tauri
+node_modules
+.vscode
+
+# files
+package.json
+pnpm-lock.yaml

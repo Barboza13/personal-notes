@@ -1,6 +1,6 @@
-import {createApp} from 'vue'
+import { createApp } from 'vue'
 import router from '@/router.ts'
-import {addIcons, OhVueIcon} from 'oh-vue-icons'
+import { addIcons, OhVueIcon } from 'oh-vue-icons'
 import {
   CoAccountLogout,
   FaUserCircle,
@@ -9,7 +9,7 @@ import {
   MdAddRound,
   MdArrowbackiosRound,
   MdDelete,
-  MdModeedit
+  MdModeedit,
 } from 'oh-vue-icons/icons'
 import App from '@/App.vue'
 

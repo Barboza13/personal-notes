@@ -1,4 +1,4 @@
-import Database from "@tauri-apps/plugin-sql";
+import Database from '@tauri-apps/plugin-sql'
 
 export default class DatabaseService {
   private static instance: DatabaseService
@@ -20,7 +20,7 @@ export default class DatabaseService {
     }
 
     try {
-      this.db = await Database.load("sqlite:personalnotes.db")
+      this.db = await Database.load('sqlite:personalnotes.db')
       this.isConnected = true
     } catch (error) {
       this.isConnected = false

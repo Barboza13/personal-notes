@@ -1,11 +1,11 @@
 import DatabaseService from '@services/DatabaseService.ts'
 import Database from '@tauri-apps/plugin-sql'
-import {compare} from 'bcryptjs'
-import type {User, UserLogin} from '@interfaces/users.ts'
-import type {MessageData} from '@interfaces/global.ts'
-import {useUser} from '@composables/useUser.ts'
+import { compare } from 'bcryptjs'
+import type { User, UserLogin } from '@interfaces/users.ts'
+import type { MessageData } from '@interfaces/global.ts'
+import { useUser } from '@composables/useUser.ts'
 
-const {clearUser} = useUser()
+const { clearUser } = useUser()
 
 export default class LoginService {
   private dbService: DatabaseService
@@ -37,11 +37,11 @@ export default class LoginService {
       const user: User = result[0]
 
       if (!user) {
-        return {error: true, content: '¡Usuario no encontrado!'}
+        return { error: true, content: '¡Usuario no encontrado!' }
       }
 
-      if (!await compare(userLogin.password, user.password)) {
-        return {error: true, content: '¡Las credenciales no coinciden!'}
+      if (!(await compare(userLogin.password, user.password))) {
+        return { error: true, content: '¡Las credenciales no coinciden!' }
       }
 
       return user

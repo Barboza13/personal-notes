@@ -5,7 +5,6 @@
   import { useUser } from '@composables/useUser'
   import ShowConfirmModal from '@transitions/ShowConfirmModal.vue'
   import ShowMessageDialog from '@transitions/ShowMessageDialog.vue'
-  import { getCurrentTimestamp } from '@utils/utils'
 
   import type { Ref } from 'vue'
   import type { MessageData } from '@interfaces/global'
@@ -26,10 +25,8 @@
   }
 
   const deleteUser = async (): Promise<void> => {
-    const deletedAt = getCurrentTimestamp()
-
     try {
-      const message = <MessageData>await userService.deleteUser(getUserId() ?? 0, deletedAt)
+      const message = <MessageData>await userService.deleteUser(getUserId() ?? 0)
       await router.push({ name: 'login', query: { message: JSON.stringify(message) } })
     } catch (error) {
       showMessage({ error: true, content: '¡Ocurrio un error inesperado, intente de nuevo!' })

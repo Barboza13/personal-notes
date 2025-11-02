@@ -17,7 +17,6 @@
 
   const checkAndShowMessage = (): void => {
     if (deleteMessageJson && typeof deleteMessageJson === 'string') {
-      console.log('Delete Message: ', JSON.parse(deleteMessageJson))
       showMessage(JSON.parse(deleteMessageJson))
     }
   }

@@ -1,10 +1,13 @@
 import DatabaseService from './DatabaseService'
 import bcrypt from 'bcryptjs'
+import { useUser } from '@composables/useUser'
 import { getCurrentTimestamp } from '@utils/utils'
 
 import type { QueryResult } from '@tauri-apps/plugin-sql'
 import type { User } from '@interfaces/users'
 import type { MessageData } from '@interfaces/global'
+
+const { userEmail } = useUser()
 
 export default class UserService {
   private dbService: DatabaseService
@@ -85,6 +88,11 @@ export default class UserService {
   async updateUser(id: number, user: Omit<User, 'password'>): Promise<MessageData> {
     try {
       const db = await this.dbService.getDatabase()
+
+      if (user.email !== userEmail.value && (await this.emailExists(user.email))) {
+        return { error: true, content: '¡El correo electrónico ya existe!' }
+      }
+
       const result: QueryResult = await db.execute('UPDATE users SET name = $1, email = $2, updated_at = $3 WHERE id = $4', [
         user.name,
         user.email,

@@ -23,7 +23,7 @@
     try {
       const result = await userService.updateUser(getUserId() ?? 0, {
         name: name.value,
-        email: userEmail.value,
+        email: email.value,
         updated_at: getCurrentTimestamp(),
       })
 
@@ -33,8 +33,10 @@
         setUser(response!)
       }
 
-      name.value = ''
-      email.value = ''
+      if (result.error == false) {
+        name.value = ''
+        email.value = ''
+      }
     } catch (error) {
       messageData.value = { error: true, content: '¡Ocurrio un error inesperado, intente de nuevo!' }
       console.error(`Error updating user: ${String(error)}`)
@@ -56,7 +58,7 @@
     />
     <h1>Configuracion</h1>
   </header>
-  <main class="flex flex-col justify-center items-center h-screen w-full bg-(--default-background)">
+  <main class="flex flex-col justify-center items-center min-h-[calc(100vh-50px)] w-full bg-(--default-background)">
     <form
       class="flex flex-col justify-center items-center w-1/2 text-(--text-color) mb-3"
       @submit.prevent="handleSubmit"

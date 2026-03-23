@@ -27,6 +27,7 @@ export function useNote() {
 
   const addNote = (note: Note): void => {
     notes.value.unshift(note)
+    getNotes()
   }
 
   const updateNote = (editedNote: Note): boolean => {
